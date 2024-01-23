@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <button>发送</button>
+    <script>
+      const btn = document.querySelector("button");
+      function sendAjax() {
+        return new Promise((resolve, reject) => {
+          const xhr = new XMLHttpRequest();
+          xhr.open("GET", "http://127.0.0.1:9000");
+          xhr.send();
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              if (xhr.status >= 200 && xhr.status < 300) {
+                resolve(xhr.response);
+              } else {
+                reject(xhr.status);
+              }
+            }
+          };
+        });
+      }
+
+      btn.onclick = () => {
+        sendAjax()
+          .then((data) => {
+            console.log(data.toString(), "我是成功的回调");
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      };
+    </script>
+  </body>
+</html>

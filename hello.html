@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Promise</h1>
+    <button>点击</button>
+    <script>
+      //定义随机数，1-100内的整数
+
+      const btn = document.querySelector("button");
+      const p = new Promise((resolve, reject) => {
+        btn.onclick = () => {
+          //新建请求
+          const xhr = new XMLHttpRequest();
+          //打开请求
+          xhr.open("GET", "http://127.0.0.1:9000");
+          //发送请求
+          xhr.send();
+          //注册事件
+          xhr.onreadystatechange = () => {
+            if (xhr.readyState === 4) {
+              //判断响应状态码 2xx
+              if (xhr.status >= 200 && xhr.status < 300) {
+                console.log(xhr.response);
+                resolve(xhr.response);
+              } else {
+                console.log(xhr.status);
+                reject(xhr.status);
+              }
+            }
+          };
+        };
+      });
+      p.then((data) => {
+        console.log(data);
+      }).catch((err) => {
+        console.log(err, "我是promise的报错处理");
+      });
+    </script>
+  </body>
+</html>
